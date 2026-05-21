@@ -23,9 +23,37 @@ Conceptual knowledge, refer to slides.
 ## Part 2 - Hands-on with dbt and BigQuery
 
 
-### Designing and Implementing Star Schema and Snowflake Schema for Liquor Sales Data
+### Exercise 1: Designing and Implementing Star Schema and Snowflake Schema for Liquor Sales Data
 
-Please refer to [README.md](liquor_sales/README.md) in the `liquor_sales` folder to perform the necessary setup to run this liquor sales project.
+> **Note:** The `liquor_sales` folder contains a `README.md` file — that is a dbt-generated file with additional reference links. All the setup steps you need are right here in this lesson.
+
+#### Prerequisites
+
+Before running the dbt project, make sure you have completed the following:
+
+1. Set up your Google Cloud Platform account and confirm you can access the [console](https://console.cloud.google.com/). Copy your GCP project ID.
+2. Install the gcloud CLI ([instructions](https://cloud.google.com/sdk/docs/install)) — you may have done this in Lesson 2.2 or during coaching.
+3. Authenticate GCP by running: `gcloud auth application-default login`
+4. In GCP IAM, grant yourself the **BigQuery Admin** role — you may have done this in Lesson 2.2.
+5. Open `liquor_sales/profiles.yml` and replace `<YOUR-GCP-PROJECT-ID>` with your actual GCP project ID.
+
+#### Setup
+
+Open a terminal and navigate to the `liquor_sales` folder:
+
+```bash
+cd liquor_sales
+conda activate elt
+dbt debug
+```
+
+`dbt debug` checks that your project is correctly configured and that the connection to BigQuery works. Resolve any errors before continuing.
+
+Next, load the seed CSV files:
+
+```bash
+dbt seed
+```
 
 In this section, we will be using the `liquor_sales` dataset. This dataset contains liquor sales data from Iowa, and available at [BigQuery Public](https://console.cloud.google.com/bigquery?p=bigquery-public-data&d=iowa_liquor_sales&page=dataset). The dbt project is located at `liquor_sales` directory. This is a **fully completed** dbt project that has been pre-populated for you. Skim through the `.yml` and `.sql` files in the `snapshots` and `models` directory.
 
@@ -47,13 +75,9 @@ The dimension models are nested in a `star` subdirectory. Refer to the `dbt_proj
 
 The `dim_store` model is defined in `dim_store.sql`. It selects from the `store_snapshot` table. The `dim_item` model is defined in `dim_item.sql`. Currently it selects from the source table directly.
 
-Before we start running dbt command, make sure that:
-- You have open a terminal.
-- Navigate to the `liquor_sales` folder by running `cd liquor_sales`
-- Make you are in the `elt` environment by running `conda activate elt`
-- Make sure the Bigquery connection is successful by running `dbt debug`
+Once setup is complete (see Prerequisites above), run the commands below from inside the `liquor_sales` folder with the `elt` environment active.
 
-Since this dbt project have snapshots, we need to run the following command first:
+Since this dbt project has snapshots, run the following command first:
 
 ```bash
 dbt snapshot
@@ -87,12 +111,187 @@ Observe the test results. There should be 1 failing test for the `dim_item` tabl
 
 #### Practice
 
-> 1. Implement a snapshot for the `item` dimension table. Then update the `dim_item` model to use the snapshot.
-> 2. Add a test for the `item_number` foreign key in the `fact_sales` table. The test should check if the `item_number` exists in the `dim_item` table.
-> 3. Run the tests again and make sure they pass.
+The failing test tells you that `dim_item` currently has duplicate `item_number` values, because it queries directly from the raw source table where the same item can appear in many sales rows. The fix is the same pattern used for `dim_store`: create a **snapshot** to deduplicate item records over time, then point `dim_item` at that snapshot instead.
 
+**Step 1 — Create an item snapshot**
 
-### Designing and Implementing Star Schema for Austin Bikeshare Data from Scratch
+A snapshot captures a slowly-changing dimension. Look at the existing `snapshots/store_snapshot.sql` as your template — you will create a very similar file for items.
+
+Create a new file `snapshots/item_snapshot.sql` with the following content:
+
+```sql
+{% snapshot item_snapshot %}
+
+{{
+  config(
+    target_schema='snapshots',
+    unique_key='item_number',
+    strategy='timestamp',
+    updated_at='updated_at',
+  )
+}}
+
+WITH
+item AS (
+    SELECT
+        item_number,
+        item_description,
+        category,
+        category_name,
+        vendor_number,
+        vendor_name,
+        pack,
+        bottle_volume_ml,
+        date
+    FROM
+        {{ source('iowa_liquor_sales', 'sales') }}
+),
+grouped_data AS (
+    SELECT DISTINCT
+        item_number,
+        item_description,
+        category,
+        category_name,
+        vendor_number,
+        vendor_name,
+        pack,
+        bottle_volume_ml,
+        FIRST_VALUE(date) OVER (PARTITION BY item_number, item_description, category, category_name, vendor_number, vendor_name, pack, bottle_volume_ml ORDER BY date) start_date,
+        LAST_VALUE(date) OVER (PARTITION BY item_number, item_description, category, category_name, vendor_number, vendor_name, pack, bottle_volume_ml ORDER BY date) end_date,
+    FROM
+        item
+    QUALIFY RANK() OVER (PARTITION BY item_number, item_description, category, category_name, vendor_number, vendor_name, pack, bottle_volume_ml ORDER BY date) = 1
+)
+SELECT
+    item_number,
+    item_description,
+    category,
+    category_name,
+    vendor_number,
+    vendor_name,
+    pack,
+    bottle_volume_ml,
+    CAST(start_date AS TIMESTAMP) start_at,
+    CAST(LEAD(start_date) OVER (PARTITION BY item_number ORDER BY start_date) AS TIMESTAMP) as end_at,
+    IF(LEAD(start_date) OVER (PARTITION BY item_number ORDER BY start_date) IS NULL, CURRENT_TIMESTAMP(), NULL) as updated_at,
+FROM
+    grouped_data
+ORDER BY item_number, start_at, end_at
+
+{% endsnapshot %}
+```
+
+Key things to notice (mirroring `store_snapshot.sql`):
+- `unique_key='item_number'` — dbt uses this to track changes to each item over time.
+- `strategy='timestamp'` with `updated_at='updated_at'` — dbt detects a new version of a row when `updated_at` changes.
+- The `QUALIFY RANK() = 1` trick deduplicates rows so each unique combination of item attributes appears only once.
+
+Run the snapshot to materialise it in BigQuery:
+
+```bash
+dbt snapshot
+```
+
+You should see a new `snapshots.item_snapshot` table appear in your BigQuery dataset.
+
+---
+
+**Step 2 — Update `dim_item` to read from the snapshot**
+
+Open `models/star/dim_item.sql`. It currently reads from the raw source:
+
+```sql
+SELECT DISTINCT
+    item_number,
+    ...
+FROM {{ source('iowa_liquor_sales', 'sales') }}
+```
+
+Replace its contents with the following, mirroring how `dim_store.sql` reads from `store_snapshot`:
+
+```sql
+SELECT
+    item_number,
+    item_description,
+    category,
+    category_name,
+    vendor_number,
+    vendor_name,
+    pack,
+    bottle_volume_ml,
+FROM {{ ref('item_snapshot') }}
+WHERE CURRENT_TIMESTAMP > dbt_valid_from AND dbt_valid_to IS NULL
+```
+
+The `WHERE` clause filters to only the **current** version of each item (i.e. the row where `dbt_valid_to` is `NULL`), which is how Type 2 SCDs work. This guarantees that each `item_number` appears exactly once, fixing the `unique` test.
+
+Rebuild the models:
+
+```bash
+dbt run
+```
+
+---
+
+**Step 3 — Add a foreign key test for `item_number` in `fact_sales`**
+
+Open `models/schema.yml`. It already has a `relationships` test for `store_number` that checks the foreign key against `dim_store`. You need to add the same kind of test for `item_number`.
+
+Add the highlighted lines under the `fact_sales` model's columns:
+
+```yaml
+      - name: item_number
+        description: "The foreign key to the item dimension table"
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_item')
+                field: item_number
+```
+
+The full `models/schema.yml` should look like this after your edit:
+
+```yaml
+version: 2
+
+models:
+  - name: fact_sales
+    description: "Fact table for item."
+    columns:
+      - name: invoice_and_item_number
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: store_number
+        description: "The foreign key to the store dimension table"
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_store')
+                field: store_number
+      - name: item_number
+        description: "The foreign key to the item dimension table"
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_item')
+                field: item_number
+```
+
+---
+
+**Step 4 — Run the tests and confirm they all pass**
+
+```bash
+dbt test
+```
+
+All tests should now pass. You fixed the failing `unique` test on `dim_item` by sourcing from the snapshot, and you added a new referential integrity test that confirms every `item_number` in `fact_sales` exists in `dim_item`.
+
+---
+
+### Exercise 2: Designing and Implementing Star Schema for Austin Bikeshare Data from Scratch
 
 We will be using the `austin_bikeshare` dataset. This data contains the number of hires of bicycles from Austin Bikes. Data includes start and stop timestamps, station names and ride duration.
 
