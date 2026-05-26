@@ -1,0 +1,217 @@
+[0m07:44:29.372028 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106e279a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1089bb280>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1089bab60>]}
+
+
+============================== 07:44:29.373767 | 665c111f-e2f9-423b-8833-354246fe24ec ==============================
+[0m07:44:29.373767 [info ] [MainThread]: Running with dbt=1.6.1
+[0m07:44:29.374123 [debug] [MainThread]: running dbt with arguments {'cache_selected_only': 'False', 'indirect_selection': 'eager', 'debug': 'False', 'invocation_command': 'dbt init liquor_sales', 'profiles_dir': '/Users/zanelim/.dbt', 'fail_fast': 'False', 'log_path': 'logs', 'target_path': 'None', 'write_json': 'True', 'introspect': 'True', 'partial_parse': 'True', 'log_cache_events': 'False', 'version_check': 'True', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True', 'static_parser': 'True', 'use_colors': 'True', 'log_format': 'default', 'quiet': 'False', 'warn_error': 'None', 'use_experimental_parser': 'False', 'printer_width': '80'}
+[0m07:44:29.374672 [debug] [MainThread]: Starter project path: /Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/include/starter_project
+[0m07:44:29.377628 [info ] [MainThread]: 
+Your new dbt project "liquor_sales" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m07:44:29.377895 [info ] [MainThread]: Setting up your profile.
+[0m07:44:31.863670 [debug] [MainThread]: Command `dbt init` succeeded at 07:44:31.862991 after 2.50 seconds
+[0m07:44:31.865303 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106e279a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1089ba080>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1089bb5e0>]}
+[0m07:44:31.866313 [debug] [MainThread]: Flushing usage events
+[0m08:39:27.864533 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1033e7820>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105b77220>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105b76b00>]}
+
+
+============================== 08:39:27.866703 | 15a62a9d-94f4-4083-9f3b-b3a5e022797e ==============================
+[0m08:39:27.866703 [info ] [MainThread]: Running with dbt=1.6.1
+[0m08:39:27.867101 [debug] [MainThread]: running dbt with arguments {'target_path': 'None', 'introspect': 'True', 'log_cache_events': 'False', 'log_format': 'default', 'indirect_selection': 'eager', 'partial_parse': 'True', 'write_json': 'True', 'printer_width': '80', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'profiles_dir': '/Users/zanelim/.dbt', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'cache_selected_only': 'False', 'static_parser': 'True', 'use_colors': 'True', 'log_path': 'logs', 'debug': 'False', 'version_check': 'True', 'fail_fast': 'False', 'warn_error': 'None', 'invocation_command': 'dbt init google_analytics', 'use_experimental_parser': 'False'}
+[0m08:39:27.867648 [debug] [MainThread]: Starter project path: /Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/include/starter_project
+[0m08:39:27.875140 [info ] [MainThread]: 
+Your new dbt project "google_analytics" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m08:39:27.875394 [info ] [MainThread]: Setting up your profile.
+[0m08:41:07.158471 [error] [MainThread]: Encountered an error:
+
+[0m08:41:07.166027 [error] [MainThread]: Traceback (most recent call last):
+  File "/Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/cli/requires.py", line 87, in wrapper
+    result, success = func(*args, **kwargs)
+  File "/Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/cli/requires.py", line 72, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/cli/main.py", line 468, in init
+    results = task.run()
+  File "/Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/task/init.py", line 308, in run
+    self.create_profile_from_target(adapter, profile_name=profile_name)
+  File "/Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/task/init.py", line 179, in create_profile_from_target
+    self.create_profile_from_profile_template(profile_template, profile_name)
+  File "/Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/task/init.py", line 163, in create_profile_from_profile_template
+    target = self.generate_target_from_input(prompts, initial_target)
+  File "/Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/task/init.py", line 129, in generate_target_from_input
+    target[key] = click.prompt(
+  File "/Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/click/termui.py", line 164, in prompt
+    value = prompt_func(prompt)
+  File "/Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/click/termui.py", line 147, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m08:41:07.170395 [debug] [MainThread]: Command `dbt init` failed at 08:41:07.170197 after 99.32 seconds
+[0m08:41:07.171003 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1033e7820>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x13a3f56f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x13a3f5780>]}
+[0m08:41:07.171844 [debug] [MainThread]: Flushing usage events
+[0m08:41:13.235287 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1075bfa00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1097771f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109776ad0>]}
+
+
+============================== 08:41:13.237087 | a99b49c4-822f-4afa-ab03-fb70d12d2a65 ==============================
+[0m08:41:13.237087 [info ] [MainThread]: Running with dbt=1.6.1
+[0m08:41:13.237432 [debug] [MainThread]: running dbt with arguments {'introspect': 'True', 'fail_fast': 'False', 'profiles_dir': '/Users/zanelim/.dbt', 'warn_error': 'None', 'static_parser': 'True', 'log_cache_events': 'False', 'log_path': 'logs', 'no_print': 'None', 'debug': 'False', 'write_json': 'True', 'log_format': 'default', 'use_colors': 'True', 'target_path': 'None', 'quiet': 'False', 'printer_width': '80', 'partial_parse': 'True', 'version_check': 'True', 'invocation_command': 'dbt init google_analytics', 'use_experimental_parser': 'False', 'send_anonymous_usage_stats': 'True', 'cache_selected_only': 'False', 'indirect_selection': 'eager', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])'}
+[0m08:41:13.237954 [info ] [MainThread]: A project called google_analytics already exists here.
+[0m08:41:13.238299 [debug] [MainThread]: Command `dbt init` succeeded at 08:41:13.238234 after 0.01 seconds
+[0m08:41:13.238496 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1075bfa00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109776ef0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109777190>]}
+[0m08:41:13.238699 [debug] [MainThread]: Flushing usage events
+[0m08:41:21.920957 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x103333820>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104ec7220>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104ec6b00>]}
+
+
+============================== 08:41:21.922394 | 1a1a9bd6-41ba-4d1b-a764-6e0ae5df6c3c ==============================
+[0m08:41:21.922394 [info ] [MainThread]: Running with dbt=1.6.1
+[0m08:41:21.922744 [debug] [MainThread]: running dbt with arguments {'introspect': 'True', 'indirect_selection': 'eager', 'target_path': 'None', 'printer_width': '80', 'log_format': 'default', 'send_anonymous_usage_stats': 'True', 'use_experimental_parser': 'False', 'partial_parse': 'True', 'no_print': 'None', 'invocation_command': 'dbt init google_analytics', 'warn_error': 'None', 'profiles_dir': '/Users/zanelim/.dbt', 'write_json': 'True', 'version_check': 'True', 'log_path': 'logs', 'debug': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'fail_fast': 'False', 'static_parser': 'True', 'log_cache_events': 'False', 'quiet': 'False', 'cache_selected_only': 'False', 'use_colors': 'True'}
+[0m08:41:21.923241 [debug] [MainThread]: Starter project path: /Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/include/starter_project
+[0m08:41:21.926968 [info ] [MainThread]: 
+Your new dbt project "google_analytics" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m08:41:21.927215 [info ] [MainThread]: Setting up your profile.
+[0m08:42:28.438261 [info ] [MainThread]: Profile google_analytics written to /Users/zanelim/.dbt/profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m08:42:28.440288 [debug] [MainThread]: Command `dbt init` succeeded at 08:42:28.440022 after 66.53 seconds
+[0m08:42:28.440956 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x103333820>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x130af7a00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x130af4e80>]}
+[0m08:42:28.441733 [debug] [MainThread]: Flushing usage events
+[0m22:44:05.925716 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10774f9a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x111deb280>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x111deab30>]}
+
+
+============================== 22:44:05.927545 | a4f06483-6147-43eb-a644-ce139bb04461 ==============================
+[0m22:44:05.927545 [info ] [MainThread]: Running with dbt=1.6.1
+[0m22:44:05.927993 [debug] [MainThread]: running dbt with arguments {'log_cache_events': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'warn_error': 'None', 'cache_selected_only': 'False', 'send_anonymous_usage_stats': 'True', 'introspect': 'True', 'fail_fast': 'False', 'no_print': 'None', 'log_format': 'default', 'quiet': 'False', 'target_path': 'None', 'indirect_selection': 'eager', 'invocation_command': 'dbt init london_bicycle', 'use_colors': 'True', 'static_parser': 'True', 'log_path': 'logs', 'version_check': 'True', 'write_json': 'True', 'printer_width': '80', 'use_experimental_parser': 'False', 'partial_parse': 'True', 'profiles_dir': '/Users/zanelim/.dbt', 'debug': 'False'}
+[0m22:44:05.928532 [debug] [MainThread]: Starter project path: /Users/zanelim/miniconda3/envs/bde/lib/python3.10/site-packages/dbt/include/starter_project
+[0m22:44:05.931255 [info ] [MainThread]: 
+Your new dbt project "london_bicycle" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m22:44:05.931462 [info ] [MainThread]: Setting up your profile.
+[0m22:45:06.394960 [info ] [MainThread]: Profile london_bicycle written to /Users/zanelim/.dbt/profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m22:45:06.397110 [debug] [MainThread]: Command `dbt init` succeeded at 22:45:06.396850 after 60.48 seconds
+[0m22:45:06.397765 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10774f9a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x168cf7a00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x168cf4df0>]}
+[0m22:45:06.398422 [debug] [MainThread]: Flushing usage events
+[0m00:46:27.984929 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105451e10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x114980220>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1149803a0>]}
+
+
+============================== 00:46:27.987712 | 80fe6af9-273e-42e1-a13c-a1b06d6a30d7 ==============================
+[0m00:46:27.987712 [info ] [MainThread]: Running with dbt=1.6.3
+[0m00:46:27.988051 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/zanelim/.dbt', 'fail_fast': 'False', 'warn_error': 'None', 'log_path': 'logs', 'debug': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt init', 'log_format': 'default', 'introspect': 'True', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m00:46:31.955546 [error] [MainThread]: Encountered an error:
+
+[0m00:46:31.961275 [error] [MainThread]: Traceback (most recent call last):
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/cli/requires.py", line 87, in wrapper
+    result, success = func(*args, **kwargs)
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/cli/requires.py", line 72, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/cli/main.py", line 469, in init
+    results = task.run()
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/task/init.py", line 283, in run
+    project_name = self.get_valid_project_name()
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/task/init.py", line 246, in get_valid_project_name
+    name = click.prompt("Enter a name for your project (letters, digits, underscore)")
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/click/termui.py", line 164, in prompt
+    value = prompt_func(prompt)
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/click/termui.py", line 147, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m00:46:31.962854 [debug] [MainThread]: Command `dbt init` failed at 00:46:31.962665 after 3.99 seconds
+[0m00:46:31.963522 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105451e10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x114963760>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1149638e0>]}
+[0m00:46:31.964087 [debug] [MainThread]: Flushing usage events
+[0m00:46:38.517764 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1026bdd80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10497c190>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10497c310>]}
+
+
+============================== 00:46:38.519836 | 34bc30a4-2667-4e50-8974-9be0994a8f3a ==============================
+[0m00:46:38.519836 [info ] [MainThread]: Running with dbt=1.6.3
+[0m00:46:38.520190 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/zanelim/.dbt', 'debug': 'False', 'version_check': 'True', 'log_path': 'logs', 'warn_error': 'None', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt init', 'introspect': 'True', 'log_format': 'default', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m00:46:47.978635 [debug] [MainThread]: Starter project path: /Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/include/starter_project
+[0m00:46:47.989984 [info ] [MainThread]: 
+Your new dbt project "test_dbt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m00:46:47.990587 [info ] [MainThread]: Setting up your profile.
+[0m00:46:52.609973 [error] [MainThread]: Encountered an error:
+
+[0m00:46:52.616406 [error] [MainThread]: Traceback (most recent call last):
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/cli/requires.py", line 87, in wrapper
+    result, success = func(*args, **kwargs)
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/cli/requires.py", line 72, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/cli/main.py", line 469, in init
+    results = task.run()
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/task/init.py", line 307, in run
+    adapter = self.ask_for_adapter_choice()
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/dbt/task/init.py", line 233, in ask_for_adapter_choice
+    numeric_choice = click.prompt(prompt_msg, type=click.INT)
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/click/termui.py", line 164, in prompt
+    value = prompt_func(prompt)
+  File "/Users/zanelim/.pyenv/versions/3.10.12/lib/python3.10/site-packages/click/termui.py", line 147, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m00:46:52.617852 [debug] [MainThread]: Command `dbt init` failed at 00:46:52.617666 after 14.11 seconds
+[0m00:46:52.618432 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1026bdd80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10495f970>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10495f700>]}
+[0m00:46:52.619052 [debug] [MainThread]: Flushing usage events
